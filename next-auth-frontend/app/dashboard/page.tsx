@@ -20,11 +20,13 @@ export default function DashboardPage() {
         });
 
         if (response.ok) {
-          const text = await response.text();
-          // Hacky parsing (We will fix this in Go soon!)
-          const extractedName = text.replace("Welcome to the secret dashboard, ", "").replace("!\n", "");
-          setUsername(extractedName);
+          // 1. Parse the response as JSON
+          const data = await response.json();
+          
+          // 2. Access the 'username' key directly from our new Go JSON response
+          setUsername(data.username);
         } else {
+          // If the server says Unauthorized (401), kick the user back to the login page
           router.push("/");
         }
       } catch (error) {
@@ -44,6 +46,7 @@ export default function DashboardPage() {
         method: "POST",
         credentials: "include",
       });
+      // After telling Go to destroy the session, send the user to the login page
       router.push("/");
     } catch (error) {
       console.error("Logout failed", error);
