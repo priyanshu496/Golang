@@ -8,12 +8,15 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
+  // ENTERPRISE BEST PRACTICE: Dynamic API URL for local vs. production
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://golang-auth-qc7d.onrender.com";
+
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await fetch("http://localhost:8080/protected", {
+        const response = await fetch(`${API_URL}/protected`, {
           method: "GET",
-          credentials: "include", 
+          credentials: "include", // CRITICAL: Sends our HTTP-Only cookie to Go!
         });
 
         if (response.ok) {
@@ -33,11 +36,11 @@ export default function DashboardPage() {
     };
 
     checkAuth();
-  }, [router]);
+  }, [router, API_URL]);
 
   const handleLogout = async () => {
     try {
-      await fetch("http://localhost:8080/logout", {
+      await fetch(`${API_URL}/logout`, {
         method: "POST",
         credentials: "include",
       });

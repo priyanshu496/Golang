@@ -8,22 +8,25 @@ export default function AuthPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false); // New state to track loading
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setMessage(""); // Clear old messages
+    setMessage(""); 
 
     const endpoint = isLogin ? "/login" : "/register";
+    
+    // ENTERPRISE BEST PRACTICE: Use environment variables, fallback to live URL
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://golang-auth-qc7d.onrender.com";
 
     try {
-      const response = await fetch(`http://localhost:8080${endpoint}`, {
+      const response = await fetch(`${API_URL}${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
-        credentials: "include",
+        credentials: "include", // CRITICAL: This allows cross-site cookies to be saved!
       });
 
       const text = await response.text();
@@ -42,7 +45,7 @@ export default function AuthPage() {
     } catch (error) {
       setMessage("❌ Failed to connect to the server.");
     } finally {
-      setIsLoading(false); // Turn off the loading state whether it succeeded or failed
+      setIsLoading(false); 
     }
   };
 
@@ -110,7 +113,7 @@ export default function AuthPage() {
             onClick={() => {
               setIsLogin(!isLogin);
               setMessage("");
-              setPassword(""); // Always clear password on toggle for security
+              setPassword(""); 
             }}
             className="font-semibold text-indigo-400 transition-colors hover:text-indigo-300 hover:underline"
           >
