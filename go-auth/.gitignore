@@ -1,0 +1,49 @@
+# ----------------------------------------------------------------------
+# 1. Environment Variables (CRITICAL)
+# ----------------------------------------------------------------------
+# NEVER commit your secrets, passwords, or database URLs to Git!
+.env
+.env.*
+
+# ----------------------------------------------------------------------
+# 2. Go Build Outputs (Binaries)
+# ----------------------------------------------------------------------
+# We don't commit compiled programs, we only commit the code.
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+bin/
+go-auth 
+
+# Test binaries and coverage reports
+*.test
+*.out
+coverage.txt
+
+# ----------------------------------------------------------------------
+# 3. Go Modules
+# ----------------------------------------------------------------------
+# If you ever run `go mod vendor`, this ignores the downloaded packages
+vendor/
+
+# ----------------------------------------------------------------------
+# 4. IDEs and Editors
+# ----------------------------------------------------------------------
+# Ignores VS Code workspace settings so you don't overwrite teammates' setups
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ----------------------------------------------------------------------
+# 5. OS Specific Files
+# ----------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
